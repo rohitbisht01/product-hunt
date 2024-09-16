@@ -9,6 +9,8 @@ import SignUpButton from "./SignUpButton";
 import Modal from "../ui/modals/Modal";
 import AuthContent from "./AuthContent";
 import Avatar from "./Avatar";
+import NotificationIcon from "./NotificationIcon";
+import Submit from "./Submit";
 
 interface NavbarProps {
   authenticatedUser?: any;
@@ -20,6 +22,7 @@ export default function Navbar({ authenticatedUser }: NavbarProps) {
   const handleAuthClick = () => {
     setAuthModalShow(true);
   };
+
   return (
     <div className="border-b py-2 md:py-0 px-4 md:px-6">
       <div className="flex items-center justify-between">
@@ -35,7 +38,9 @@ export default function Navbar({ authenticatedUser }: NavbarProps) {
         <div className="flex items-center text-sm space-x-6 cursor-pointer">
           {authenticatedUser ? (
             <>
-              <Avatar  authenticatedUser={authenticatedUser}/>
+              <Submit />
+              <NotificationIcon />
+              <Avatar authenticatedUser={authenticatedUser} />
             </>
           ) : (
             <div

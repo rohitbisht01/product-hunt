@@ -18,6 +18,10 @@ interface AvatarProps {
 }
 
 export default function Avatar({ authenticatedUser }: AvatarProps) {
+  const handleMyUpvotes = () => {
+    window.location.href = "/my-upvoted";
+  };
+
   return (
     <div>
       <DropdownMenu>
@@ -41,7 +45,10 @@ export default function Avatar({ authenticatedUser }: AvatarProps) {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <div className="flex gap-x-2 rounded-sm w-full cursor-pointer">
+            <div
+              onClick={handleMyUpvotes}
+              className="flex gap-x-2 rounded-sm w-full cursor-pointer"
+            >
               <Heart className="h-5 w-5" />
               Upvoted
             </div>
