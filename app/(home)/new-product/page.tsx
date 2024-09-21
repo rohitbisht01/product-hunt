@@ -14,6 +14,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { TbWorldCheck } from "react-icons/tb";
+import { FaTwitter } from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa";
+import { Separator } from "@/components/ui/separator";
+import { createProduct } from "@/lib/server-actions";
 
 const categories = [
   "Media",
@@ -46,7 +51,8 @@ const categories = [
 ];
 
 const NewProduct = () => {
-  const [step, setStep] = useState(4);
+  const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -57,6 +63,9 @@ const NewProduct = () => {
     []
   );
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [website, setWebsite] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [discord, setDiscord] = useState("");
 
   const handleNameChange = (e: any) => {
     const productName = e.target.value;
@@ -98,8 +107,69 @@ const NewProduct = () => {
     setUploadedProductImages(urls);
   }, []);
 
+  const handleWebsiteChange = (e: any) => {
+    setWebsite(e.target.value);
+  };
+
+  const handleTwitterChange = (e: any) => {
+    setTwitter(e.target.value);
+  };
+
+  const handleDiscordChange = (e: any) => {
+    setDiscord(e.target.value);
+  };
+
+  const handleGoToProducts = () => {
+    window.location.href = "/my-products";
+  };
+
+  const submitAnotherProducts = () => {
+    setStep(1);
+    setName("");
+    setSlug("");
+    setShortDescription("");
+    setHeadline("");
+    setDate(new Date());
+    setWebsite("");
+    setTwitter("");
+    setDiscord("");
+    setSelectedCategories([]);
+    setUploadedLogoUrl("");
+    setUploadedProductImages([]);
+  };
+
+  const submitProduct = async () => {
+    setLoading(true);
+    const formattedDate = date ? format(date, "MM/dd/yyyy") : "";
+
+    try {
+      await createProduct({
+        name,
+        slug,
+        headline,
+        website,
+        twitter,
+        discord,
+        description: shortDescription,
+        logo: uploadedLogoUrl,
+        releaseDate: formattedDate,
+        images: uploadedProductImages,
+        category: selectedCategories,
+      });
+
+      setStep(8);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   const nextStep = useCallback(() => {
     setStep(step + 1);
+  }, [step]);
+
+  const prevStep = useCallback(() => {
+    setStep(step - 1);
   }, [step]);
 
   return (
@@ -313,9 +383,208 @@ const NewProduct = () => {
           </div>
         )}
 
-        <button className="mt-20" onClick={nextStep}>
-          Next
-        </button>
+        {step === 6 && (
+          <div className="space-y-10">
+            <h1 className="text-4xl font-semibold">🔗 Additional Links</h1>
+            <p className="text-xl font-light mt-4 leading-8">
+              Add links to your product&apos;s website, social media, and other
+              platforms
+            </p>
+
+            <div className="mt-10">
+              <div className="font-medium flex items-center gap-x-2">
+                <TbWorldCheck className="text-2xl text-gray-600" />
+                <span>Website</span>
+              </div>
+              <input
+                type="text"
+                value={website}
+                className="border rounded-md p-2 w-full mt-2 focus:outline-none"
+                placeholder="https://www.yourdomain.com"
+                onChange={handleWebsiteChange}
+              />
+            </div>
+
+            <div className="mt-10">
+              <div className="font-medium flex items-center gap-x-2">
+                <FaTwitter className="text-2xl text-gray-600" />
+                <span>Twitter</span>
+              </div>
+              <input
+                type="text"
+                value={twitter}
+                className="border rounded-md p-2 w-full mt-2 focus:outline-none"
+                placeholder="https://twitter.com/yourusername"
+                onChange={handleTwitterChange}
+              />
+            </div>
+
+            <div className="mt-10">
+              <div className="font-medium flex items-center gap-x-2">
+                <FaDiscord className="text-2xl text-gray-600" />
+                <span>Discord</span>
+              </div>
+              <input
+                type="text"
+                value={discord}
+                className="border rounded-md p-2 w-full mt-2 focus:outline-none"
+                placeholder="https://discord.com/users/yourusername"
+                onChange={handleDiscordChange}
+              />
+            </div>
+          </div>
+        )}
+
+        {step === 7 && (
+          <div className="space-y-10">
+            {/* <Progress value={100}/> */}
+
+            <h1 className="text-4xl font-semibold">🔍 Review and Submit</h1>
+            <div className="text-xl font-light mt-4 leading-8">
+              Review the details of your project and submit it to the world.
+              Your product will be reviewed by our team before it goes live.
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-8">
+              {/* <div>
+                <div className="font-semibold">Logo</div>
+                <Image
+                  src={uploadedLogoUrl || ""}
+                  alt="Product Logo"
+                  width={1000}
+                  height={1000}
+                  className="rounded-md w-28 h-28 object-cover"
+                />
+              </div> */}
+
+              <div>
+                <div className="font-semibold">Name of the product</div>
+                <div className="mt-2 text-gray-600">{name}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Slug ( URL )</div>
+                <div className="mt-2 text-gray-600">{slug}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Category</div>
+                <div className="mt-2 text-gray-600">
+                  {selectedCategories.join(", ")}
+                </div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Website URL</div>
+                <div className="mt-2 text-gray-600">{website}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Headline</div>
+                <div className="mt-2 text-gray-600">{headline}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Short Descrition</div>
+                <div className="mt-2 text-gray-600">{shortDescription}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Twitter</div>
+                <div className="mt-2 text-gray-600">{twitter}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">Discord</div>
+                <div className="mt-2 text-gray-600">{discord}</div>
+              </div>
+
+              <div>
+                <div className="font-semibold">
+                  Release date - Pending Approval
+                </div>
+                <div className="mt-2 text-gray-600">
+                  {date ? date.toDateString() : "Not specified"}
+                </div>
+              </div>
+
+              <div className="cols-span-2">
+                <div className="font-semibold">Product Images</div>
+                <div className="mt-2 md:flex gap-2 w-full">
+                  {uploadedProductImages.map((url, index) => (
+                    <div key={index} className="relative w-28 h-28">
+                      <Image
+                        priority
+                        src={url}
+                        alt="Uploaded Product Image"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-md"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 8 && (
+          <div className="space-y-10">
+            <div className="text-4xl font-semibold">Congratulations 👏</div>
+            <div className="text-xl font-light mt-4 leading-8">
+              Your product has been successfully submitted. Our team will review
+              it and get back to you soon.
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <div
+                className="bg-orange-600 text-white py-2 px-4 rounded-md flex w-60 justify-center items-center cursor-pointer"
+                onClick={handleGoToProducts}
+              >
+                Go to your products
+              </div>
+              <Separator />
+
+              <div
+                className="text-orange-600  py-2 px-4 rounded-md flex w-60 justify-center items-center cursor-pointer"
+                onClick={submitAnotherProducts}
+              >
+                Submit another product
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step !== 8 && (
+          <>
+            <div className="flex justify-between items-center mt-10">
+              {step !== 1 && (
+                <button className="text-gray-600" onClick={prevStep}>
+                  Previous
+                </button>
+              )}
+
+              <div className="flex items-center">
+                {step === 7 ? (
+                  <button
+                    className="bg-orange-600 text-white py-2 px-4 mt-4 rounded-md items-end"
+                    onClick={submitProduct}
+                  >
+                    Submit
+                  </button>
+                ) : (
+                  <button
+                    className="bg-orange-600 text-white py-2 px-4 mt-4 rounded-md items-end"
+                    onClick={nextStep}
+                  >
+                    {step === 7 ? "Submit" : "Continue"}
+                  </button>
+                )}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
