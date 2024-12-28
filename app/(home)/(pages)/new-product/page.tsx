@@ -19,6 +19,9 @@ import { FaTwitter } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
 import { createProduct } from "@/lib/server-actions";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
+import { BsCircleFill } from "react-icons/bs";
 
 const categories = [
   "Media",
@@ -165,8 +168,106 @@ const NewProduct = () => {
   };
 
   const nextStep = useCallback(() => {
+    if (step === 1 && name.length < 4) {
+      console.log(name.length);
+      toast(
+        <>
+          <div className="flex items-center gap-4 mx-auto">
+            <BsCircleFill className="text-red-500 text-3xl" />
+            <div>Please enter at least 4 characters for the product name.</div>
+          </div>
+        </>,
+        { position: "top-center" }
+      );
+      return;
+    }
+
+    if (step === 2 && selectedCategories.length < 3) {
+      toast(
+        <>
+          <div className="flex items-center gap-4 mx-auto">
+            <BsCircleFill className="text-red-500 text-3xl" />
+            <div>Please select at least 3 characters for the product.</div>
+          </div>
+        </>,
+        { position: "top-center" }
+      );
+      return;
+    }
+
+    if (step === 3 && headline.length < 10) {
+      toast(
+        <>
+          <div className="flex items-center gap-4 mx-auto">
+            <BsCircleFill className="text-red-500 text-3xl" />
+            <div>Please enter at least 10 characters for the headline.</div>
+          </div>
+        </>,
+        { position: "top-center" }
+      );
+      return;
+    }
+
+    if (step === 4 && uploadedProductImages.length < 1) {
+      toast(
+        <>
+          <div className="flex items-center gap-4 mx-auto">
+            <BsCircleFill className="text-red-500 text-3xl" />
+            <div>Upload at least 3 images for the product.</div>
+          </div>
+        </>,
+        { position: "top-center" }
+      );
+      return;
+    }
+
+    if (step === 5 && !date) {
+      toast(
+        <>
+          <div className="flex items-center gap-4 mx-auto">
+            <BsCircleFill className="text-red-500 text-3xl" />
+            <div>
+              {" "}
+              Please select a release date or choose the Coming soon option.
+            </div>
+          </div>
+        </>,
+        { position: "top-center" }
+      );
+      return;
+    }
+
+    if (step == 6 && !website && !twitter && !discord) {
+      toast(
+        <>
+          <div className="flex items-center gap-4  mx-auto">
+            <PiXCircleFill className="text-red-500 text-3xl" />
+            <div className="text-md font-semibold">
+              Please enter at least one link for the product.
+            </div>
+          </div>
+        </>,
+        {
+          position: "top-center",
+        }
+      );
+      return;
+    }
+
     setStep(step + 1);
-  }, [step]);
+  }, [
+    step,
+    name,
+    selectedCategories,
+    headline,
+    shortDescription,
+    uploadedLogoUrl,
+    uploadedProductImages,
+    date,
+    website,
+    twitter,
+    discord,
+  ]);
 
   const prevStep = useCallback(() => {
     setStep(step - 1);
@@ -176,7 +277,12 @@ const NewProduct = () => {
     <div className="flex items-center justify-center py-8 md:py-20">
       <div className="px-8 md:3/5 md:mx-auto">
         {step === 1 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             <h1 className="text-4xl font-semibold">📦 New Product</h1>
             <p className="text-xl font-light mt-4 leading-8">
               Ready to showcase your product to the world? You came to the right
@@ -210,11 +316,16 @@ const NewProduct = () => {
                 readOnly
               />
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 2 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             <h1 className="text-4xl font-semibold">
               📊 What category does your product belongs to ?
             </h1>
@@ -227,10 +338,11 @@ const NewProduct = () => {
               <div className="grid grid-cols-4 gap-2 pt-4 items-center justify-center">
                 {categories.map((category, index) => {
                   return (
-                    <div
+                    <motion.div
                       key={index}
                       className="flex border rounded-full"
                       onClick={() => handleCategoryToggle(category)}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <div
                         className={`text-sm md:text-sm p-2 cursor-pointer w-full text-center ${
@@ -241,16 +353,21 @@ const NewProduct = () => {
                       >
                         {category}
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 3 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             <h1 className="text-4xl font-semibold">ℹ️ Product Details</h1>
             <p className="text-xl font-light mt-4 leading-8">
               Keep it simple and clear. Describe your product in a way that
@@ -282,11 +399,11 @@ const NewProduct = () => {
                 {shortDescription.length} / 300
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 4 && (
-          <div className="space-y-10">
+          <motion.div className="space-y-10">
             <h1 className="text-4xl font-semibold">
               🖼️ Add Images to showcase your project
             </h1>
@@ -298,7 +415,7 @@ const NewProduct = () => {
             <div className="mt-10">
               <h2 className="font-medium">Logo</h2>
               {uploadedLogoUrl ? (
-                <div>
+                <div className="mt-2">
                   <Image
                     src={uploadedLogoUrl}
                     alt="logo"
@@ -341,11 +458,16 @@ const NewProduct = () => {
                 />
               )}
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 5 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             <h1 className="text-4xl font-semibold">📅 Release Date</h1>
             <p className="text-xl font-light mt-4 leading-8">
               When will your product be available to the public? Select a date
@@ -380,11 +502,16 @@ const NewProduct = () => {
                 </Popover>
               </>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 6 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             <h1 className="text-4xl font-semibold">🔗 Additional Links</h1>
             <p className="text-xl font-light mt-4 leading-8">
               Add links to your product&apos;s website, social media, and other
@@ -432,11 +559,16 @@ const NewProduct = () => {
                 onChange={handleDiscordChange}
               />
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 7 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             {/* <Progress value={100}/> */}
 
             <h1 className="text-4xl font-semibold">🔍 Review and Submit</h1>
@@ -526,11 +658,16 @@ const NewProduct = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step === 8 && (
-          <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }} // slide in from right
+            animate={{ opacity: 1, x: 0 }} // slide to center
+            exit={{ opacity: 0, x: "-100%" }} // slide out to left
+            className="space-y-10"
+          >
             <div className="text-4xl font-semibold">Congratulations 👏</div>
             <div className="text-xl font-light mt-4 leading-8">
               Your product has been successfully submitted. Our team will review
@@ -553,7 +690,7 @@ const NewProduct = () => {
                 Submit another product
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {step !== 8 && (
