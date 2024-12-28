@@ -295,3 +295,14 @@ export const getRankById = async (): Promise<
 
   return productsWithRanks;
 };
+
+// get products by userid
+export const  getProductsByUserId  =async (userId:string) =>{
+  const products = await prisma.product.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  return products;
+}

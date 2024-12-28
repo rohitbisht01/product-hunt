@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
 import Navbar from "@/components/navbar/Navbar";
-import React from "react";
+import React, { Suspense } from "react";
+import Spinner from "@/components/spinner";
+import { getProductsByUserId } from "@/lib/server-actions";
+
 
 const HomeLayout = async ({
   children,
@@ -9,12 +12,15 @@ const HomeLayout = async ({
 }>) => {
   // get the user
   const authenticatedUser = await auth();
+  const products = await getProductsByUserId(authenticatedUser?.user?.id || "")
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body>
-        <Navbar authenticatedUser={authenticatedUser} />
-        {children}
+        <Suspense fallback={<Spinner />}>
+          <Navbar authenticatedUser={authenticatedUser} products ={products} />
+          {children}
+        </Suspense>
       </body>
     </html>
   );

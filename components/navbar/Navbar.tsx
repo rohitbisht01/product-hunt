@@ -14,9 +14,11 @@ import Submit from "./Submit";
 
 interface NavbarProps {
   authenticatedUser?: any;
+  products?:any;
+  notifications?: any;
 }
 
-export default function Navbar({ authenticatedUser }: NavbarProps) {
+export default function Navbar({ authenticatedUser,products,notifications }: NavbarProps) {
   const [authModalShow, setAuthModalShow] = useState(false);
 
   const handleAuthClick = () => {
@@ -38,7 +40,7 @@ export default function Navbar({ authenticatedUser }: NavbarProps) {
         <div className="flex items-center text-sm space-x-6 cursor-pointer">
           {authenticatedUser ? (
             <>
-              <Submit />
+              <Submit products={products} authenticatedUser={authenticatedUser}  />
               <NotificationIcon />
               <Avatar authenticatedUser={authenticatedUser} />
             </>
