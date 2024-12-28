@@ -1,4 +1,8 @@
-const DeleteProduct = async () => {
+interface DeleteProductProps {
+  productId: string;
+}
+
+const DeleteProduct = async ({ productId }: DeleteProductProps) => {
   return <div></div>;
 };
 
