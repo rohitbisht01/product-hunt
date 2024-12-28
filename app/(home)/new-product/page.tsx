@@ -22,6 +22,7 @@ import { createProduct } from "@/lib/server-actions";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { BsCircleFill } from "react-icons/bs";
+import { PiXCircleFill } from "react-icons/pi";
 
 const categories = [
   "Media",
