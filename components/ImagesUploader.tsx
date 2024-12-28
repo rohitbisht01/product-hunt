@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 interface ImagesUploaderProps {
   endpoint: keyof typeof ourFileRouter;
-  onChange: (urls?: string[]) => void;
+  onChange: (urls: string[]) => void;
 }
 
 const ImagesUploader = ({ endpoint, onChange }: ImagesUploaderProps) => {
