@@ -297,7 +297,7 @@ export const getRankById = async (): Promise<
 };
 
 // get products by userid
-export const  getProductsByUserId  =async (userId:string) =>{
+export const getProductsByUserId = async (userId: string) => {
   const products = await prisma.product.findMany({
     where: {
       userId,
@@ -305,4 +305,65 @@ export const  getProductsByUserId  =async (userId:string) =>{
   });
 
   return products;
-}
+};
+
+// my upvoted products
+export const getUpvotedProducts = async () => {
+  try {
+    const authenticatedUser = await auth();
+
+    if (
+      !authenticatedUser ||
+      !authenticatedUser.user ||
+      !authenticatedUser.user.id
+    ) {
+      throw new Error("User ID is missing or invalid");
+    }
+
+    const userId = authenticatedUser.user.id;
+
+    const upvotedProducts = await prisma.upvote.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        product: true,
+      },
+    });
+
+    return upvotedProducts.map((upvote) => upvote.product);
+  } catch (error) {
+    console.error("Error getting upvoted products", error);
+    return [];
+  }
+};
+
+// get all categories
+export const getCategories = async () => {
+  const categories = await prisma.category.findMany({
+    where: {
+      products: {
+        some: {
+          status: "ACTIVE",
+        },
+      },
+    },
+  });
+
+  return categories;
+};
+
+export const getProductsByCategoryName = async (category: string) => {
+  const products = await prisma.product.findMany({
+    where: {
+      categories: {
+        some: {
+          name: category,
+        },
+      },
+      status: "ACTIVE",
+    },
+  });
+
+  return products;
+};

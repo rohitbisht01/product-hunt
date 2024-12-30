@@ -11,7 +11,7 @@ interface IParams {
   productId: any;
 }
 
-const ProductIdPage =  async ({ params }: { params: IParams }) => {
+const ProductIdPage = async ({ params }: { params: IParams }) => {
   const product = await getProductById(params.productId);
 
   if (!product) {
@@ -54,9 +54,9 @@ const ProductIdPage =  async ({ params }: { params: IParams }) => {
         </div>
 
         <div className="flex items-center gap-4">
-            <EditProduct product = {product}/>
-            <DeleteProduct productId={product.id}/>
-            </div>
+          <EditProduct product={product} />
+          <DeleteProduct productId={product.id} />
+        </div>
       </div>
     </div>
   );
