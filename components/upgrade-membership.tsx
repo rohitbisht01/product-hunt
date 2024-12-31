@@ -12,6 +12,14 @@ const UpgradeMembership = ({ authenticatedUser }: UpgradeMembershipProps) => {
     try {
       const result = await createCheckoutSession({
         email: authenticatedUser.user.email,
+        name: "Test",
+        address: {
+          line1: "123 Main Street",
+          city: "Springfield",
+          state: "Uttarakhand",
+          postal_code: "263601",
+          country: "India",
+        },
       });
       if (result && result.url) {
         window.location.href = result.url;
