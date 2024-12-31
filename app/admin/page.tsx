@@ -106,9 +106,7 @@ const AdminPage = async () => {
               </CardTitle>
               👤
             </CardHeader>
-            <CardContent>
-              {rejectedProducts ? rejectedProducts.length : 0}
-            </CardContent>
+            <CardContent>{rejectedProducts?.length}</CardContent>
           </Card>
 
           <Card>
