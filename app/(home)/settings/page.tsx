@@ -21,7 +21,7 @@ const Settings = async () => {
 
       <div className="mt-10">
         <div className="space-y-10">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-between">
             <h1>Next Payment Date</h1>
             <p className="text-sm text-gray-400 font-light">
               {subscriptionDetails
@@ -42,9 +42,11 @@ const Settings = async () => {
           <hr />
 
           {isPremium ? (
-            <ManageBilling />
+            <>
+              <ManageBilling />
+            </>
           ) : (
-            <div className="mt-10 text-blue-500 cursor-pointer hover:underline">
+            <div className="mt-10 text-blue-500  cursor-pointer hover:underline">
               Membership Info
             </div>
           )}

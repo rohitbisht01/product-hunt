@@ -5,6 +5,15 @@ import { PiArrowLeft } from "react-icons/pi";
 import { Badge } from "@/components/ui/badge";
 import EditProduct from "./edit-product";
 import DeleteProduct from "./delete-product";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface IParams {
   authenticatedUser: any;
@@ -58,6 +67,82 @@ const ProductIdPage = async ({ params }: { params: IParams }) => {
           <DeleteProduct productId={product.id} />
         </div>
       </div>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <Card>
+          <CardHeader
+            className="flex flex-row items-center 
+          justify-between space-y-0 pb-2"
+          >
+            <CardTitle>Current Rank</CardTitle> 🏅
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl">
+              {productRank
+                ? productRank.findIndex((p) => p.id === product.id) + 1
+                : "N/A"}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader
+            className="flex flex-row items-center 
+          justify-between space-y-0 pb-2"
+          >
+            <CardTitle>Comments </CardTitle> 💬
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl">{product.comments.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader
+            className="flex flex-row items-center 
+          justify-between space-y-0 pb-2"
+          >
+            <CardTitle>Upvotes </CardTitle> 🔺
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl">{product.upvotes.length}</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="py-6">
+        <Separator />
+      </div>
+
+      <h2 className="font-semibold text-xl pb-6">Community Feedback </h2>
+
+      {product.comments.length > 0 ? (
+        <div className="mt-4 space-y-4">
+          {product.comments.map((comment: any) => (
+            <div key={comment.id} className="border p-4 rounded-lg">
+              <div className="flex gap-x-4 items-center">
+                <Image
+                  src={comment.user.image}
+                  alt="profile"
+                  width={50}
+                  height={50}
+                  className="h-12 w-12 rounded-full"
+                />
+                <div>
+                  <h2 className="font-semibold">{comment.user.name}</h2>
+                  <p className="text-gray-500">{comment.body}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="pt-4">
+          <h2 className="text-xl font-semibold">No comments yet</h2>
+          <p className="text-gray-500 pt-4">
+            Be the first to comment on this product
+          </p>
+        </div>
+      )}
     </div>
   );
 };

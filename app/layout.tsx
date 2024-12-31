@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Recursive } from "next/font/google";
-import {Toaster} from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 const recursive = Recursive({
   subsets: ["latin"],
@@ -18,9 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={recursive.className}>{children}
-      <Toaster />
+    <html  suppressHydrationWarning={true} lang="en">
+      <body className={recursive.className}>
+        {children}
+        <Toaster />
       </body>
     </html>
   );
