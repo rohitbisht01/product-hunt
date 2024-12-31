@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
       signature,
       webhookSigningSecret
     );
-  } catch (error) {
+  } catch (error: any) {
     console.log(`❌ Error message: ${error.message}`);
     return new NextResponse(`❌ Webhook Error: ${error.message}`, {
       status: 400,
