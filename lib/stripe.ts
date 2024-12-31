@@ -38,8 +38,10 @@ export const createCheckoutSession = async ({
         },
       ],
       mode: "subscription",
-      success_url: `http://localhost:3000/new-product`,
-      cancel_url: `http://localhost:3000/`,
+      // success_url: `http://localhost:3000/new-product`,
+      success_url: `https://product-hunt-five.vercel.app/new-product`,
+      // cancel_url: `http://localhost:3000/`,
+      cancel_url: `https://product-hunt-five.vercel.app/`,
       billing_address_collection: "required", // Ensure billing address is collected
       metadata: {
         customer_name: name, // Add customer name in metadata
@@ -57,7 +59,7 @@ export const createCheckoutSession = async ({
 // create customer link
 export const createCustomerLink = async () => {
   try {
-    console.log("customer link")
+    console.log("customer link");
     const authenticatedUser = await auth();
     if (
       !authenticatedUser ||
@@ -86,8 +88,8 @@ export const createCustomerLink = async () => {
 
     const portal = await stripe.billingPortal.sessions.create({
       customer: customer.id,
-      // return_url: `https://product-hunt-five.vercel.app/my-products`,
-      return_url: `http://localhost:3000/`,
+      return_url: `https://product-hunt-five.vercel.app/my-products`,
+      // return_url: `http://localhost:3000/`,
     });
 
     return portal.url;
