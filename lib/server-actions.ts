@@ -419,7 +419,19 @@ export const getActiveProducts = async () => {
   return products;
 };
 
-export const getRejectedProducts = async () => {};
+export const getRejectedProducts = async () => {
+  const products = await prisma.product.findMany({
+    where: {
+      status: "REJECTED",
+    },
+    include: {
+      categories: true,
+      images: true,
+    },
+  });
+
+  return products;
+};
 
 export const getTotalUpvotes = async () => {
   const totalUpvotes = await prisma.upvote.count({
@@ -683,9 +695,8 @@ export const getNotifications = async () => {
       throw new Error("User ID is missing or invalid");
     }
 
-    
     const userId = authenticatedUser.user.id;
-    console.log(userId)
+    console.log(userId);
     const notifications = await prisma.notification.findMany({
       where: {
         userId,
