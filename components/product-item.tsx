@@ -61,14 +61,11 @@ const ProductItem = ({ product, authenticatedUser }: ProductItemProps) => {
     e.stopPropagation();
     window.open(`${product.website}`, "_blank");
   };
-
-  const handleCategoryClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleCategoryClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
-  const handleUpvoteClick =async (
+  const handleUpvoteClick = async (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.stopPropagation();
@@ -85,7 +82,7 @@ const ProductItem = ({ product, authenticatedUser }: ProductItemProps) => {
   return (
     <div
       onClick={handleProductItemClick}
-     className="py-4 w-full cursor-pointer p-2 rounded-md transition-all duration-300 ease-in-out hover:bg-blue-50 hover:shadow-md"
+      className="py-4 w-full cursor-pointer p-2 rounded-md transition-all duration-300 ease-in-out hover:bg-blue-50 hover:shadow-md"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
