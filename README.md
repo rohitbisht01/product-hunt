@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Product Hunt
 
-## Getting Started
+Product Hunt is a subscription-based platform where developers and creators can **showcase their projects**, and other users can **discover and upvote** them. It offers a space similar to Product Hunt, helping tech enthusiasts find new apps, tools, and services every day.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- 🔐 User Authentication (GitHub & Google via NextAuth)
+- 🛠️ Post your product and get visibility
+- 💬 Explore and upvote products by others
+- 🆓 Free plan allows posting **1 product**
+- 💳 Stripe-powered payments to unlock **premium**
+- 🌟 Premium users can post **unlimited products**
+- 🖼️ Upload product images and descriptions
+- 🛡️ **Admin Dashboard** to manage and **approve/reject** product submissions
+
+---
+
+## 🧾 Tech Stack
+
+- **Frontend/Backend**: Next.js
+- **Database**: PostgreSQL
+- **Authentication**: NextAuth.js (GitHub & Google)
+- **Payments**: Stripe
+- **File Uploads**: UploadThing
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone git@github.com:rohitbisht01/product-hunt.git
+cd product-hunt
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Setup Enviroment variables
+
+```bash
+AUTH_SECRET=
+AUTH_GITHUB_ID=
+AUTH_GITHUB_SECRET=
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
+
+DATABASE_URL=""
+UPLOADTHING_TOKEN=''
+
+# Stripe keys
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+
+STRIPE_WEBHOOK_SIGNING_SECRET=
+
+ADMIN_USERNAME=
+ADMIN_PASSWORD=
+```
+
+### 4. Run the app locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🛠 Admin Capabilities
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ✅ **Approve** product submissions
+- ❌ **Reject** inappropriate or incomplete submissions
+- 🧑‍💻 **View** all posted products and user details
 
-## Learn More
+Access the Admin Dashboard at:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+http://localhost:3000/admin
+```
