@@ -9,21 +9,17 @@ const ProductPageLayout = async ({
 }>) => {
   const authenticatedUser = await auth();
   const notifications = await getNotifications();
-  console.log(notifications);
-
   const products = await getProductsByUserId(authenticatedUser?.user?.id || "");
 
   return (
-    <html lang="en">
-      <body>
-        <Navbar
-          authenticatedUser={authenticatedUser}
-          products={products}
-          notifications={notifications}
-        />
-        {children}
-      </body>
-    </html>
+    <>
+      <Navbar
+        authenticatedUser={authenticatedUser}
+        products={products}
+        notifications={notifications}
+      />
+      {children}
+    </>
   );
 };
 

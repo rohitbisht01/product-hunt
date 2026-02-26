@@ -19,13 +19,13 @@ export default function AuthContent() {
 
       <button
         className="p-2 border rounded-md py-2 flex items-center gap-4 px-10 mt-4"
-        onClick={() => signIn("google", { redirect: false })}
+        onClick={() => signIn("google", { callbackUrl: "/" })}
       >
         <FcGoogle className="text-xl" />
         Sign in with Google
       </button>
       <button
-        onClick={() => signIn("github", { redirect: false })}
+        onClick={() => signIn("github", { callbackUrl: "/" })}
         className="p-2 border rounded-md py-2 flex items-center gap-4 px-10 mt-4"
       >
         <BsGithub className="text-xl" />

@@ -15,18 +15,14 @@ const HomeLayout = async ({
   const notifications = await getNotifications();
 
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body>
-        <Suspense fallback={<Spinner />}>
-          <Navbar
-            authenticatedUser={authenticatedUser}
-            notifications={notifications}
-            products={products}
-          />
-          {children}
-        </Suspense>
-      </body>
-    </html>
+    <Suspense fallback={<Spinner />}>
+      <Navbar
+        authenticatedUser={authenticatedUser}
+        notifications={notifications}
+        products={products}
+      />
+      {children}
+    </Suspense>
   );
 };
 
