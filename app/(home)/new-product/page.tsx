@@ -261,8 +261,6 @@ const NewProduct = () => {
     name,
     selectedCategories,
     headline,
-    shortDescription,
-    uploadedLogoUrl,
     uploadedProductImages,
     date,
     website,
